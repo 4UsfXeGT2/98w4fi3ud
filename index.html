@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #password {
+        font-size: 1.5em;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Random Password Generator</h1>
+    <p id="password"></p>
+
+    <script>
+      // Character sets for password generation
+      const lowerCase = "abcdefghikmnpqrstuvwxyz";
+      const upperCase = "ABCDEFGHIKLMNPQRSTUVWXYZ";
+      const digits = "23456789";
+      const specialCharacters = "!@#$%^&*()_+-=[]{}|;':\",.<>/?";
+
+      // Generate a random password
+      function generatePassword() {
+        let password = "";
+
+        // Add a random character from each character set
+        password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+        password += upperCase[Math.floor(Math.random() * upperCase.length)];
+        password += digits[Math.floor(Math.random() * digits.length)];
+        password += specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
+
+        // Add 11 more random characters from all sets
+        for (let i = 0; i < 11; i++) {
+          let characterSet = lowerCase + upperCase + digits + specialCharacters;
+          password += characterSet[Math.floor(Math.random() * characterSet.length)];
+        }
+
+        // shuffle the password to randomize the order of the characters
+        let passwordArray = password.split("");
+        for (let i = passwordArray.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [passwordArray[i], passwordArray[j]] = [passwordArray[j], passwordArray[i]];
+        }
+        password = passwordArray.join("");
+
+        return password;
+      }
+
+      // Display the generated password
+      document.getElementById("password").innerHTML = generatePassword();
+    </script>
+  </body>
+</html>
+<! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
