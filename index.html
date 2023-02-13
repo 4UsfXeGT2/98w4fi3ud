@@ -28,11 +28,11 @@
         password += digits[Math.floor(Math.random() * digits.length)];
 
         // Add 11 more random characters from all sets, avoiding special characters at the beginning or end
-        let characterSet = lowerCase + upperCase + digits + specialCharacters;
+        let characterSet = lowerCase + upperCase + digits;
         for (let i = 0; i < 11; i++) {
           let randomIndex = Math.floor(Math.random() * characterSet.length);
-          if (i === 0 || i === 11) {
-            // For the first and last characters, avoid special characters
+          if (i === 0) {
+            // For the first character, avoid special characters
             while (specialCharacters.includes(characterSet[randomIndex])) {
               randomIndex = Math.floor(Math.random() * characterSet.length);
             }
