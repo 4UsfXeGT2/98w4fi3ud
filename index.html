@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Random Password Generator</title>
     <style>
       #password {
-        font-size: 4em;
+        font-size: 1.5em;
         text-align: center;
       }
     </style>
   </head>
   <body>
-    <br><br><br><br><br><br><br>
+    <h1>Random Password Generator</h1>
     <p id="password"></p>
 
     <script>
@@ -27,28 +28,33 @@
         password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
         password += upperCase[Math.floor(Math.random() * upperCase.length)];
         password += digits[Math.floor(Math.random() * digits.length)];
-        password += specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
 
-        // Add 11 more random characters from all sets
+        // Add 11 more random characters from all sets, avoiding special characters at the beginning or end
+        let characterSet = lowerCase + upperCase + digits + specialCharacters;
         for (let i = 0; i < 11; i++) {
-          let characterSet = lowerCase + upperCase + digits + specialCharacters;
-          password += characterSet[Math.floor(Math.random() * characterSet.length)];
+          let randomIndex = Math.floor(Math.random() * characterSet.length);
+          if (i === 0 || i === 11) {
+            // For the first and last characters, avoid special characters
+            while (specialCharacters.includes(characterSet[randomIndex])) {
+              randomIndex = Math.floor(Math.random() * characterSet.length);
+            }
+          }
+          password += characterSet[randomIndex];
         }
 
-        // shuffle the password to randomize the order of the characters
-        let passwordArray = password.split("");
-        for (let i = passwordArray.length - 1; i > 0; i--) {
-          let j = Math.floor(Math.random() * (i + 1));
-          [passwordArray[i], passwordArray[j]] = [passwordArray[j], passwordArray[i]];
+        // Pad the password with special characters if necessary
+        while (password.length < 15) {
+          password = password + specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
         }
-        password = passwordArray.join("");
 
         return password;
       }
 
-      // Display the generated password
-      document.getElementById("password").innerHTML = generatePassword();
+      // Show the password on the page
+      const passwordDisplay = document.getElementById("password");
+      passwordDisplay.textContent = generatePassword();
     </script>
   </body>
 </html>
-<! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
+
+// Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit
