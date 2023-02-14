@@ -1,27 +1,59 @@
 <!DOCTYPE html>
 <html>
- <br><br><br><br><br><br>
+  <head>
+   <br><br><br><br><br>
+    <style>
+      #password {
+        font-size: 5em;
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+  </head>
   <body>
+    <div id="password"></div>
     <script>
       function generatePassword() {
         const allowedChars = "23456789abcdefghikmnpqrstuvwxyzABCDEFGHKLMNPQRSTUVWXYZ!@#$%^&*()_+-=[]{};':\",.<>/?";
         const passwordLength = 11;
         let password = "";
-        while (password.length < passwordLength) {
+        let lowercaseCount = 0;
+        let uppercaseCount = 0;
+        let specialCount = 0;
+        
+        while (password.length < passwordLength || lowercaseCount < 2 || uppercaseCount < 2 || specialCount < 2) {
           const index = Math.floor(Math.random() * allowedChars.length);
           const char = allowedChars[index];
+          
           if (password.length === 0 && "!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
             continue;
           }
+          
           if (password.length === passwordLength - 1 && "!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
             continue;
           }
+          
+          if (/[a-z]/.test(char)) {
+            lowercaseCount++;
+          }
+          
+          if (/[A-Z]/.test(char)) {
+            uppercaseCount++;
+          }
+          
+          if ("!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
+            specialCount++;
+          }
+          
           password += char;
         }
-        document.write(password);
+        
+        document.getElementById("password").textContent = password;
       }
+      
       generatePassword();
     </script>
   </body>
 </html>
+
 <! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
