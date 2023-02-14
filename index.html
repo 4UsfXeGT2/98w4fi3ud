@@ -1,33 +1,83 @@
 <!DOCTYPE html>
 <html>
-  <br><br><br><br><br>
-  <style>
-        font-size: 5em;
-        font-weight: bold;
-        text-align: center;
-    </style>
-  <body>
-    <script>
-      function generatePassword() {
-        const allowedChars = "23456789abcdefghikmnpqrstuvwxyzABCDEFGHKLMNPQRSTUVWXYZ!@#$%^&*()_+-=[]{};':\",.<>/?";
-        const passwordLength = 11;
-        let password = "";
-        while (password.length < passwordLength) {
-          const index = Math.floor(Math.random() * allowedChars.length);
-          const char = allowedChars[index];
-          if (password.length === 0 && "!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
-            continue;
-          }
-          if (password.length === passwordLength - 1 && "!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
-            continue;
-          }
-          password += char;
-        }
-        document.write(password);
-      }
-      generatePassword();
-    </script>
-  </body>
+<head>
+	<br><br><br><br><br>
+	<style>
+		h1 {
+			text-align: center;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<p id="password"></p>
+
+	<script>
+		const lowerCase = "abcdefghikmnpqrstuvwxyz";
+		const upperCase = "ABCDEFGHKLMNPQRSTUVWXYZ";
+		const digits = "23456789";
+		const specialChars = "!@#$%^&*()_+-=[]{};':\",.<>/?";
+
+		function generatePassword() {
+			let password = "";
+			let length = 11;
+
+			while (password.length < length) {
+				let randomChar = "";
+				let randomIndex;
+
+				if (password.length === 0) {
+					randomIndex = Math.floor(Math.random() * (lowerCase.length - 2));
+					randomChar = lowerCase[randomIndex];
+				} else if (password.length === length - 1) {
+					randomIndex = Math.floor(Math.random() * (specialChars.length - 1));
+					randomChar = specialChars[randomIndex];
+				} else {
+					let category = Math.floor(Math.random() * 4);
+
+					switch (category) {
+						case 0:
+							randomIndex = Math.floor(Math.random() * lowerCase.length);
+							randomChar = lowerCase[randomIndex];
+							break;
+						case 1:
+							randomIndex = Math.floor(Math.random() * upperCase.length);
+							randomChar = upperCase[randomIndex];
+							break;
+						case 2:
+							randomIndex = Math.floor(Math.random() * specialChars.length);
+							randomChar = specialChars[randomIndex];
+							break;
+						case 3:
+							randomIndex = Math.floor(Math.random() * digits.length);
+							randomChar = digits[randomIndex];
+							break;
+						default:
+							break;
+					}
+				}
+
+				password += randomChar;
+			}
+
+			if (password.match(/[a-z]/g).length < 2) {
+				return generatePassword();
+			}
+
+			if (password.match(/[A-Z]/g).length < 2) {
+				return generatePassword();
+			}
+
+			if (password.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g).length < 2) {
+				return generatePassword();
+			}
+
+			return password;
+		}
+
+		document.getElementById("password").innerHTML = generatePassword();
+	</script>
+</body>
 </html>
 
 <! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
