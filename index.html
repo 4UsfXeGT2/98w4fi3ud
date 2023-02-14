@@ -1,60 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      #password {
-        font-size: 5em;
-        text-align: center;
-      }
-    </style>
-  </head>
+ <br><br><br><br><br><br>
   <body>
-    <p id="password"></p>
-
     <script>
-      // Character sets for password generation
-      const lowerCase = "abcdefghikmnpqrstuvwxyz";
-      const upperCase = "ABCDEFGHKLMNPQRSTUVWXYZ";
-      const digits = "23456789";
-      const specialCharacters = "!@#$%^&*()_+-=[]{}|;':\",.<>/?";
-
-      // Generate a random password
       function generatePassword() {
+        const allowedChars = "23456789abcdefghikmnpqrstuvwxyzABCDEFGHKLMNPQRSTUVWXYZ!@#$%^&*()_+-=[]{};':\",.<>/?";
+        const passwordLength = 11;
         let password = "";
-
-        // Add a random character from each character set
-        password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
-        password += upperCase[Math.floor(Math.random() * upperCase.length)];
-        password += digits[Math.floor(Math.random() * digits.length)];
-
-        // Add 11 more random characters from all sets, avoiding special characters at the beginning or end
-        let characterSet = lowerCase + upperCase + digits;
-        for (let i = 0; i < 11; i++) {
-          let randomIndex = Math.floor(Math.random() * characterSet.length);
-          if (i === 0) {
-            // For the first character, avoid special characters
-            while (specialCharacters.includes(characterSet[randomIndex])) {
-              randomIndex = Math.floor(Math.random() * characterSet.length);
-            }
+        while (password.length < passwordLength) {
+          const index = Math.floor(Math.random() * allowedChars.length);
+          const char = allowedChars[index];
+          if (password.length === 0 && "!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
+            continue;
           }
-          password += characterSet[randomIndex];
+          if (password.length === passwordLength - 1 && "!@#$%^&*()_+-=[]{};':\",.<>/?".includes(char)) {
+            continue;
+          }
+          password += char;
         }
-
-        // Add special characters if necessary to reach 15 characters
-        let numSpecialCharacters = 15 - password.length;
-        for (let i = 0; i < numSpecialCharacters; i++) {
-          let randomIndex = Math.floor(Math.random() * specialCharacters.length);
-          password += specialCharacters[randomIndex];
-        }
-
-        return password;
+        document.write(password);
       }
-
-      // Show the password on the page
-      const passwordDisplay = document.getElementById("password");
-      passwordDisplay.textContent = generatePassword();
+      generatePassword();
     </script>
   </body>
 </html>
-
 <! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
