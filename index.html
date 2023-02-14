@@ -16,15 +16,19 @@
     <script>
       function generatePassword() {
         let password = "",
-        characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()";
+        characters = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz123456789!@#$%^&*()_+-=[]{};':\",.<>/?";
 
         for (let i=1; i<=11; i++ ) {
             let random_index = Math.floor(Math.random() * characters.length);
             password += characters.substring(random_index,random_index+1);
         }
-        const passwordElement = document.getElementById('password');
-        passwordElement.innerHTML = password;
-        passwordElement.style.fontWeight = 'bold';
+
+        match = password.match("^([a-zA-Z0-9])(?=.{2,}[a-z])(?=.{2,}[A-Z])(?=.{2,}[!@#\$%\^&\*\+-_])[a-zA-Z0-9!@#\$%\^&\*\+-_]+[a-zA-Z0-9]$");
+        if(match) {
+          const passwordElement = document.getElementById('password');
+          passwordElement.innerHTML = password;
+          passwordElement.style.fontWeight = 'bold';
+        } else generatePassword();       
      
      }
         
