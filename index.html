@@ -15,52 +15,23 @@
     <p id="password"></p>
     <script>
       function generatePassword() {
-        const digits = '123456789';
-        const lowerCaseLetters = 'abcdefghikmnpqrstuvwxyz';
-        const upperCaseLetters = 'ABCDEFGHKLMNPQRSTUVWXYZ';
-        const specialCharacters = '!@#$%^&*()_+-=[]{};:\",.<>/?';
-        let password = '';
-        let hasLowerCase = false;
-        let hasUpperCase = false;
-        let hasSpecialChar = false;
+        let password = "",
+        characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*()";
 
-        while (password.length < 11 || !hasLowerCase || !hasUpperCase || !hasSpecialChar || specialCharacters.includes(password[0]) || specialCharacters.includes(password[password.length - 1])) {
-          password = '';
-          hasLowerCase = false;
-          hasUpperCase = false;
-          hasSpecialChar = false;
-          for (let i = 0; i < 11; i++) {
-            let charSet;
-            if (i < 2) {
-              charSet = lowerCaseLetters;
-            } else if (i >= 2 && i < 4) {
-              charSet = upperCaseLetters;
-            } else if (i >= 4 && i < 6) {
-              charSet = specialCharacters;
-            } else {
-              charSet = digits + lowerCaseLetters + upperCaseLetters + specialCharacters;
-            }
-            const randomIndex = Math.floor(Math.random() * charSet.length);
-            const randomChar = charSet.charAt(randomIndex);
-            password += randomChar;
-            if (lowerCaseLetters.includes(randomChar)) {
-              hasLowerCase = true;
-            } else if (upperCaseLetters.includes(randomChar)) {
-              hasUpperCase = true;
-            } else if (specialCharacters.includes(randomChar)) {
-              hasSpecialChar = true;
-            }
-          }
+        for (let i=1; i<=11; i++ ) {
+            let random_index = Math.floor(Math.random() * characters.length);
+            password += characters.substring(random_index,random_index+1);
         }
-
         const passwordElement = document.getElementById('password');
         passwordElement.innerHTML = password;
         passwordElement.style.fontWeight = 'bold';
-      }
-
-      generatePassword();
+     
+     }
+        
+    generatePassword();
+    
     </script>
   </body>
 </html>
 
-<! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
+<! Coded by ChatGPT, Hosted on GitHub>
