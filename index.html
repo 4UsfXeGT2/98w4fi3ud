@@ -15,23 +15,72 @@
     <p id="password"></p>
     <script>
       function generatePassword() {
-        let password = "",
-        characters = "ABCDEFGHIJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz123456789!@#$%^&*()_+-=[]{};':\",.<>/?";
+          const length = 11;
+          const digits = "123456789";
+          const lowerCaseLetters = "abcdefghikmnpqrstuvwxyz";
+          const upperCaseLetters = "ABCDEFGHKLMNPQRSTUVWXYZ";
+          const specialCharacters = "!@#$%^&*()_+-=[]{};':\",.>/?";
 
-        for (let i=1; i<=11; i++ ) {
-            let random_index = Math.floor(Math.random() * characters.length);
-            password += characters.substring(random_index,random_index+1);
+          let password = "";
+
+          // Make sure the password starts with a non-special character
+          let characterSet = digits + lowerCaseLetters + upperCaseLetters;
+          password += randomCharFromSet(characterSet);
+
+          // Choose 2 lower case letters
+          let count = 0;
+          while (count < 2) {
+            characterSet = lowerCaseLetters;
+            const char = randomCharFromSet(characterSet);
+            if (!password.includes(char)) {
+              password += char;
+              count++;
+            }
+          }
+
+          // Choose 2 upper case letters
+          count = 0;
+          while (count < 2) {
+            characterSet = upperCaseLetters;
+            const char = randomCharFromSet(characterSet);
+            if (!password.includes(char)) {
+              password += char;
+              count++;
+            }
+          }
+
+          // Choose 2 special characters
+          count = 0;
+          while (count < 2) {
+            characterSet = specialCharacters;
+            const char = randomCharFromSet(characterSet);
+            if (!password.includes(char)) {
+              password += char;
+              count++;
+            }
+          }
+
+          // Fill the rest of the password randomly
+          while (password.length < length - 1) {
+            characterSet = digits + lowerCaseLetters + upperCaseLetters + specialCharacters;
+            password += randomCharFromSet(characterSet);
+          }
+
+          // Make sure the password ends with a non-special character
+          characterSet = digits + lowerCaseLetters + upperCaseLetters;
+          password += randomCharFromSet(characterSet);
+          
+          if (password.length == 11) {
+              const passwordElement = document.getElementById('password');
+              passwordElement.innerHTML = password;
+              passwordElement.style.fontWeight = 'bold';
+          } 
+        }       
+
+        function randomCharFromSet(set) {
+          return set.charAt(Math.floor(Math.random() * set.length));
         }
 
-        match = password.match("^([a-zA-Z0-9])(?=.{2,}[a-z])(?=.{2,}[A-Z])(?=.{2,}[!@#\$%\^&\*\+-_])[a-zA-Z0-9!@#\$%\^&\*\+-_]+[a-zA-Z0-9]$");
-        if(match) {
-          const passwordElement = document.getElementById('password');
-          passwordElement.innerHTML = password;
-          passwordElement.style.fontWeight = 'bold';
-        } else generatePassword();       
-     
-     }
-        
     generatePassword();
     
     </script>
