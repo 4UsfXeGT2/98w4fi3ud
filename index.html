@@ -1,83 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<br><br><br><br><br>
-	<style>
-		h1 {
-			text-align: center;
-			font-weight: bold;
-		}
-	</style>
-</head>
-<body>
-	<p id="password"></p>
-
-	<script>
-		const lowerCase = "abcdefghikmnpqrstuvwxyz";
-		const upperCase = "ABCDEFGHKLMNPQRSTUVWXYZ";
-		const digits = "23456789";
-		const specialChars = "!@#$%^&*()_+-=[]{};':\",.<>/?";
-
-		function generatePassword() {
-			let password = "";
-			let length = 11;
-
-			while (password.length < length) {
-				let randomChar = "";
-				let randomIndex;
-
-				if (password.length === 0) {
-					randomIndex = Math.floor(Math.random() * (lowerCase.length - 2));
-					randomChar = lowerCase[randomIndex];
-				} else if (password.length === length - 1) {
-					randomIndex = Math.floor(Math.random() * (specialChars.length - 1));
-					randomChar = specialChars[randomIndex];
-				} else {
-					let category = Math.floor(Math.random() * 4);
-
-					switch (category) {
-						case 0:
-							randomIndex = Math.floor(Math.random() * lowerCase.length);
-							randomChar = lowerCase[randomIndex];
-							break;
-						case 1:
-							randomIndex = Math.floor(Math.random() * upperCase.length);
-							randomChar = upperCase[randomIndex];
-							break;
-						case 2:
-							randomIndex = Math.floor(Math.random() * specialChars.length);
-							randomChar = specialChars[randomIndex];
-							break;
-						case 3:
-							randomIndex = Math.floor(Math.random() * digits.length);
-							randomChar = digits[randomIndex];
-							break;
-						default:
-							break;
-					}
-				}
-
-				password += randomChar;
-			}
-
-			if (password.match(/[a-z]/g).length < 2) {
-				return generatePassword();
-			}
-
-			if (password.match(/[A-Z]/g).length < 2) {
-				return generatePassword();
-			}
-
-			if (password.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g).length < 2) {
-				return generatePassword();
-			}
-
-			return password;
-		}
-
-		document.getElementById("password").innerHTML = generatePassword();
-	</script>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Password Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #password {
+        font-weight: bold;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="password"></div>
+    <script>
+      const digits = '123456789';
+      const lowercaseLetters = 'abcdefghikmnpqrstuvwxyz';
+      const uppercaseLetters = 'ABCDEFGHKLMNPQRSTUVWXYZ';
+      const specialCharacters = '!@#$%^&*()_+-=[]{};\\:\'",.<>/?';
+      
+      function generatePassword() {
+        let password = '';
+        let charSets = [digits, lowercaseLetters, uppercaseLetters, specialCharacters];
+        let minChars = {digits: 1, lowercaseLetters: 2, uppercaseLetters: 2, specialCharacters: 2};
+        let hasMinChars = {digits: false, lowercaseLetters: false, uppercaseLetters: false, specialCharacters: false};
+        
+        while (password.length < 11 || !hasMinChars.digits || !hasMinChars.lowercaseLetters || !hasMinChars.uppercaseLetters || !hasMinChars.specialCharacters || specialCharacters.includes(password[0]) || specialCharacters.includes(password[password.length - 1])) {
+          password = '';
+          hasMinChars = {digits: false, lowercaseLetters: false, uppercaseLetters: false, specialCharacters: false};
+          charSets.forEach(charSet => {
+            let count = 0;
+            while (count < minChars[charSet]) {
+              let char = charSet[Math.floor(Math.random() * charSet.length)];
+              password += char;
+              count++;
+              if (charSet === digits) hasMinChars.digits = true;
+              if (charSet === lowercaseLetters) hasMinChars.lowercaseLetters = true;
+              if (charSet === uppercaseLetters) hasMinChars.uppercaseLetters = true;
+              if (charSet === specialCharacters) hasMinChars.specialCharacters = true;
+            }
+          });
+        }
+        
+        document.getElementById('password').textContent = password;
+      }
+      
+      generatePassword();
+    </script>
+  </body>
 </html>
 
 <! Coded by ChatGPT, Hosted on GitHub, Created by the Bulgarian CyberCrime Unit>
