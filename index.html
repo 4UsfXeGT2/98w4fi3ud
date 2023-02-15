@@ -14,6 +14,14 @@
   <body>
     <p id="password"></p>
     <script>
+      function shuffleWord(word){
+        var shuffledWord = "";
+        word = word.split("");
+        while (word.length > 0) {
+          shuffledWord +=  word.splice(word.length * Math.random() << 0, 1);
+        }
+        return shuffledWord;
+      }
       function generatePassword() {
           const length = 11;
           const digits = "123456789";
@@ -21,11 +29,9 @@
           const upperCaseLetters = "ABCDEFGHKLMNPQRSTUVWXYZ";
           const specialCharacters = "!@#$%^&*()_+-=[]{};':\",.>/?";
 
-          let password = "";
-
           // Make sure the password starts with a non-special character
           let characterSet = digits + lowerCaseLetters + upperCaseLetters;
-          password += randomCharFromSet(characterSet);
+          let password = randomCharFromSet(characterSet);
 
           // Choose 2 lower case letters
           let count = 0;
@@ -69,8 +75,11 @@
           // Make sure the password ends with a non-special character
           characterSet = digits + lowerCaseLetters + upperCaseLetters;
           password += randomCharFromSet(characterSet);
+
+          // Shuffle the mid section of the password
+          password = password[0] + shuffleWord(password.substr(1,password.length-2)) + password[password.length-1];
           
-          if (password.length == 11) {
+          if (password.length == length) {
               const passwordElement = document.getElementById('password');
               passwordElement.innerHTML = password;
               passwordElement.style.fontWeight = 'bold';
